@@ -1,6 +1,5 @@
-import pygame
 import numpy as np
-from sys import exit
+import tensorflow as tf
 
 class neural: 
 
@@ -12,17 +11,30 @@ class neural:
 
     def rand_fit(self): 
 
-        pass ## Randomly fits a NN
+        self.model = tf.keras.Sequential([
+            tf.keras.layers.Dense(2, input_shape=(3,), activation='relu'),
+            tf.keras.layers.Dense(3)
+        ])
 
-    def direction(self): 
+    def equal_fit(self): 
 
+        pass ## Fits all same weights
+
+    def update(self): 
+
+        pass ## Mutates a new NN
+
+    def direction(self, inputs): 
+
+        npinputs = np.array(inputs).reshape(1, 3) 
         if self.model == None: 
 
-            raise ValueError("Need to run rand_fit before calling direction")
+            raise ValueError("Need to run rand_fit or equal_fit before calling direction")
         
         else: 
             
-            return [.2, .2, .6] ## Outputs NN Results from inputs
+            print(self.model.predict(npinputs) )
+            return self.model.predict(npinputs) 
 
     def next_gen(self): 
 

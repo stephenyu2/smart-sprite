@@ -9,6 +9,13 @@ class game:
 
         self.neural = neural()
 
+    def get_inputs(self): 
+
+        player_height = self.player_rect.bottom
+        distance_to_nearest_obstacle_on_right = self.rock_rect.left - self.player_rect.right
+        distance_to_flag = self.flag_rect.left - self.player_rect.right
+        return [player_height, distance_to_nearest_obstacle_on_right, distance_to_flag] 
+
     def display_score(self):
 
         self.current_time = round(pygame.time.get_ticks() / 1000 - self.start_time, 2)
@@ -64,9 +71,11 @@ class game:
                     pygame.quit()
                     exit()
 
-            # Player movement          
-            direction_probability_array = self.neural.direction()
-            direction = direction_probability_array.index(max(direction_probability_array))
+            # Player movement
+            inputs = self.get_inputs() 
+            direction_probability_array = self.neural.direction(inputs)
+            print(direction_probability_array)
+            direction = np.argmax(direction_probability_array)
 
             if direction == 0:
 
@@ -129,4 +138,4 @@ class game:
                     self.player_rect.left = self.rock_rect.right
 
             pygame.display.update()
-            self.clock.tick(300)
+            self.clock.tick(60)
