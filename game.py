@@ -28,7 +28,7 @@ class game:
         self.rock_rect = self.rock_surface.get_rect(midleft = (350, 275))
         self.flag_rect = self.flag_surface.get_rect(midbottom = (750, 300))
         self.player_rect = self.player_surface.get_rect(midbottom = (80, 300))
-        self.play_epoch()
+        ## Try to show screen before running epoch
         
     def start(self, level): 
 
@@ -89,10 +89,10 @@ class game:
 
                 self.player_gravity -= 20
 
-            # Collision with flag
-            if self.flag_rect.colliderect(self.player_rect):
+            # Reward function
+            if self.flag_rect.colliderect(self.player_rect) or pygame.time.get_ticks() >= 10000: 
 
-                break
+                return self.player_rect.right ## Need to account for making it to end
 
             # Background
             self.screen.blit(self.sky_surface, (0, 0))
