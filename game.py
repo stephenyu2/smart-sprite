@@ -7,7 +7,7 @@ class game:
 
     def __init__(self): 
 
-        self.neural = neural()
+        pass
 
     def get_inputs(self): 
 
@@ -15,6 +15,10 @@ class game:
         distance_to_nearest_obstacle_on_right = self.rock_rect.left - self.player_rect.right
         distance_to_flag = self.flag_rect.left - self.player_rect.right
         return [player_height, distance_to_nearest_obstacle_on_right, distance_to_flag] 
+    
+    def get_input_dimension(self): 
+
+        return len(self.get_inputs())  
 
     def display_score(self):
 
@@ -57,10 +61,7 @@ class game:
 
             self.level1()
 
-    def play_epoch(self): 
-
-        # Random fit 
-        self.neural.rand_fit()
+    def play_epoch(self, model): 
 
         while True:
 
@@ -73,8 +74,7 @@ class game:
 
             # Player movement
             inputs = self.get_inputs() 
-            direction_probability_array = self.neural.direction(inputs)
-            print(direction_probability_array)
+            direction_probability_array = model.direction(inputs)
             direction = np.argmax(direction_probability_array)
 
             if direction == 0:

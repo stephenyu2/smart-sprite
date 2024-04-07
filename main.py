@@ -1,29 +1,25 @@
 import numpy as np
+import tensorflow as tf
 
-x = .33 * np.ones((1, 10), dtype = float)
-y = .33 * np.ones((1, 10), dtype = float)
-z = np.vstack((x, y))
+model = tf.keras.Sequential([
+    tf.keras.layers.Dense(2, input_shape=(3,), activation='relu'),
+    tf.keras.layers.Dense(3)
+])
 
-def sigmoid(x):
+index = np.random.rand(3, 2) < .1
+print(index) 
 
-    y = 1 / (1 + np.exp(-x))
-    return y
+weights, biases = model.layers[0].get_weights()
+print(weights)
+print(biases) 
+print(weights.shape[0])
+print(biases.shape)
 
-def logit(x):
+weights[index] = weights[index] + (weights[index] * np.random.uniform(-.1, .1)) 
+print(weights)
 
-    y = np.log(x / (1 - x))
-    return y
+print(np.random.rand(2)) 
 
-greedy = np.zeros((1, 100), dtype = int)
+for i in range(1): 
 
-greedy[0, 1] = 2
-
-n = 5
-num_steps = 50
-temp1 = .33 * np.ones((2, num_steps), dtype = float)
-temp2 = .34 * np.ones((1, num_steps), dtype = float)
-parent = np.vstack((temp1, temp2))
-
-# int(np.where(parent[:, n] == np.max(parent[:, n]))[1][0])
-
-print(np.where(parent[:, n] == np.max(parent[:, n]))[0][0])
+    print(i)
