@@ -22,7 +22,7 @@ class game:
 
     def display_score(self):
 
-        self.current_time = round(pygame.time.get_ticks() / 1000 - self.start_time, 2)
+        self.current_time = round(self.elapsed_time / 1000, 2)
         self.score_surf = self.test_font.render(f'{self.current_time}', False, (64, 64, 64))
         self.score_rect = self.score_surf.get_rect(center = (400, 50))
         self.screen.blit(self.score_surf, self.score_rect)
@@ -71,6 +71,9 @@ class game:
 
                     pygame.quit()
                     exit()
+            
+            # Elapsed time
+            self.elapsed_time = pygame.time.get_ticks() - self.start_time
 
             # Player movement
             inputs = self.get_inputs() 
@@ -90,9 +93,12 @@ class game:
                 self.player_gravity -= 20
 
             # Reward function
-            if self.flag_rect.colliderect(self.player_rect) or pygame.time.get_ticks() >= 10000: 
+            if self.flag_rect.colliderect(self.player_rect) or self.elapsed_time >= 10000: 
 
-                return self.player_rect.right ## Need to account for making it to end
+                reward = self.player_rect.right
+                self.start(level = self.level) 
+                self.start_time = pygame.time.get_ticks() 
+                return reward ## Need to account for making it to end before 10 seconds
 
             # Background
             self.screen.blit(self.sky_surface, (0, 0))

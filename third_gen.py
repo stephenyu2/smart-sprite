@@ -45,7 +45,6 @@ class neural:
 
             # Set weights
             self.model.layers[i].set_weights([weights, bias]) 
-            print(self.model.layers[i].get_weights())
 
     def direction(self, inputs): 
 
@@ -56,7 +55,6 @@ class neural:
         
         else: 
             
-            print(self.model.predict(npinputs))
             return self.model.predict(npinputs) 
 
     def next_gen(self): 
